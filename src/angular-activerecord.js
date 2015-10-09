@@ -214,7 +214,7 @@ angular.module('ActiveRecord', []).factory('ActiveRecord', ['$http', '$q', '$par
 			}
 
 			if(this.$beforeSave) {
-				options.data = this.$beforeSave(options.data);
+				options = this.$beforeSave(options);
 			}
 			if(this.$afterSave) {
 				var afterSave = this.$afterSave;
