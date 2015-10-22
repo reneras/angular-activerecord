@@ -220,7 +220,7 @@ angular.module('ActiveRecord', []).factory('ActiveRecord', ['$http', '$q', '$par
 				var afterSave = this.$afterSave;
 			}
 
-			return this.$sync(operation, this, options).success(function (response, status) {
+			return this.$sync(operation, this, options).then(function (response) {
 				var data = model.$parse(response.data, options);
 				if (angular.isObject(data)) {
 					applyFilters(_result(model, '$readFilters'), data);
@@ -229,11 +229,11 @@ angular.module('ActiveRecord', []).factory('ActiveRecord', ['$http', '$q', '$par
 						return data;
 					};
 				}
-				if(afterSave) afterSave(response, status);
+				if(afterSave) afterSave(response);
 
 				return model;
-			}).error(function (response, status) {
-				if(afterSave) afterSave(response, status);
+			}, function (error) {
+				if(afterSave) afterSave(error);
 			});
 		},
 
